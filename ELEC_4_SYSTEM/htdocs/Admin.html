@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>UMak · Registrar Admin</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <!-- Google Fonts: Merriweather -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ---------- reset / base ---------- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; margin: 0; padding: 0; }
+        body {
+            font-family: 'Merriweather', serif;
+            background: #f8f7f4;
+            color: #1a2a3a;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* ---------- dark mode ---------- */
+        body.dark-mode {
+            background: #0d1117;
+            color: #e6edf3;
+        }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3,
+        body.dark-mode h4, body.dark-mode h5, body.dark-mode h6,
+        body.dark-mode p, body.dark-mode span, body.dark-mode div,
+        body.dark-mode a, body.dark-mode label, body.dark-mode .card-title,
+        body.dark-mode .section-title, body.dark-mode .dl-label,
+        body.dark-mode .dl-sub, body.dark-mode .act-text,
+        body.dark-mode .act-time, body.dark-mode .ann-title,
+        body.dark-mode .ann-body, body.dark-mode .ann-by,
+        body.dark-mode .ann-time, body.dark-mode .link-sm,
+        body.dark-mode .offcanvas-header h3,
+        body.dark-mode .offcanvas-section-title,
+        body.dark-mode .dd-name, body.dark-mode .dd-email,
+        body.dark-mode .dd-item, body.dark-mode .dd-label,
+        body.dark-mode .status-row span, body.dark-mode .modal-title,
+        body.dark-mode .brand-sub, body.dark-mode footer p,
+        body.dark-mode .service-name, body.dark-mode .service-desc {
+            color: #e6edf3 !important;
+        }
+        body.dark-mode .brand-name { color: #ffffff !important; }
+        body.dark-mode .text-1, body.dark-mode .text-2, body.dark-mode .text-3 {
+            color: #e6edf3 !important;
+        }
+        body.dark-mode .header {
+            background: #161b22;
+            border-bottom-color: #ffd700;
+        }
+        body.dark-mode .card {
+            background: #161b22;
+            border-color: rgba(255,255,255,0.08);
+        }
+        body.dark-mode .side-nav {
+            background: #0d1117;
+            border-right-color: rgba(255,255,255,0.08);
+        }
+        body.dark-mode .side-nav-header {
+            background: #0d1117;
+            border-bottom-color: rgba(255,255,255,0.08);
+        }
+        body.dark-mode .side-nav-brand { color: #ffffff !important; }
+        body.dark-mode .side-nav-link { color: #b0b0c8 !important; }
+        body.dark-mode .side-nav-link:hover {
+            background: #3a3a55;
+            color: #e6edf3 !important;
+        }
+        body.dark-mode .side-nav-link.active {
+            background: rgba(255,215,0,0.12);
+            color: #ffd700 !important;
+        }
+        body.dark-mode .side-nav-close {
+            background: #3a3a55;
+            color: #b0b0c8;
+        }
+        body.dark-mode .side-nav-footer {
+            border-top-color: rgba(255,255,255,0.08);
+            color: #8a8aaa !important;
+        }
+        body.dark-mode .offcanvas {
+            background: #0d1117;
+            border-left-color: rgba(255,255,255,0.08);
+        }
+        body.dark-mode .offcanvas-header {
+            background: #0d1117;
+            border-bottom-color: rgba(255,255,255,0.08);
+        }
+        body.dark-mode .offcanvas-close {
+            background: #3a3a55;
+            color: #b0b0c8;
+        }
+        body.dark-mode .dropdown-menu {
+            background: #0d1117;
+            border-color: rgba(255,255,255,0.08);
+        }
+        body.dark-mode .dd-header { border-bottom-color: rgba(255,255,255,0.08); }
+        body.dark-mode .dd-item:hover { background: #3a3a55; }
+        body.dark-mode .status-row:hover { background: #3a3a55; }
+        body.dark-mode .modal {
+            background: #0d1117;
+            border-color: rgba(255,215,0,0.15);
+        }
+        body.dark-mode .modal-close {
+            background: #3a3a55;
+            color: #b0b0c8;
+        }
+        body.dark-mode .modal-close:hover {
+            background: #4a4a6a;
+            color: #e6edf3;
+        }
+        body.dark-mode .btn-primary {
+            background: #1a4d7a;
+            color: #ffffff !important;
+        }
+        body.dark-mode .btn-primary:hover { background: #2a6a9a; }
+        body.dark-mode .fab {
+            background: #1a4d7a;
+            border-color: #ffd700;
+        }
+        body.dark-mode .fab:hover { background: #2a6a9a; }
+        body.dark-mode .nav-overlay { background: rgba(0,0,0,0.6); }
+        body.dark-mode .offcanvas-overlay { background: rgba(0,0,0,0.6); }
+        body.dark-mode .modal-backdrop { background: rgba(0,0,0,0.6); }
+        body.dark-mode footer { border-top-color: rgba(255,255,255,0.08) !important; }
+        body.dark-mode .avatar-btn {
+            background: rgba(255,215,0,0.08);
+            border-color: rgba(255,215,0,0.12);
+        }
+        body.dark-mode .avatar-btn:hover { background: rgba(255,215,0,0.15); }
+        body.dark-mode .avatar-circle {
+            background: #ffd700;
+            color: #0d1117 !important;
+        }
+        body.dark-mode .avatar-name { color: #e6edf3 !important; }
+        body.dark-mode .icon-btn { color: rgba(255,255,255,0.6); }
+        body.dark-mode .icon-btn:hover {
+            color: #fff;
+            background: rgba(255,215,0,0.12);
+        }
+        body.dark-mode .hamburger-btn { color: rgba(255,255,255,0.8); }
+        body.dark-mode .hamburger-btn:hover { background: rgba(255,215,0,0.12); }
+        body.dark-mode .hero-greeting h1 { color: #ffffff !important; }
+        body.dark-mode .hero-greeting .sub { color: rgba(255,215,0,0.8) !important; }
+        body.dark-mode .hero-greeting .desc { color: rgba(255,255,255,0.6) !important; }
+        body.dark-mode .id-pill {
+            background: rgba(255,215,0,0.12);
+            border-color: rgba(255,215,0,0.15);
+            color: rgba(255,215,0,0.8) !important;
+        }
+        body.dark-mode .college-pill {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.7) !important;
+        }
+        body.dark-mode .hero-overlay {
+            background: linear-gradient(105deg, rgba(13,27,42,0.95) 0%, rgba(13,27,42,0.8) 55%, rgba(13,27,42,0.6) 100%);
+            border-color: rgba(255,215,0,0.15);
+        }
+        body.dark-mode .dl-urgent {
+            background: rgba(220,38,38,0.2);
+            color: #ef4444 !important;
+        }
+        body.dark-mode .dl-warn {
+            background: rgba(133,79,11,0.2);
+            color: #f59e0b !important;
+        }
+        body.dark-mode .dl-ok {
+            background: rgba(5,150,105,0.2);
+            color: #34d399 !important;
+        }
+        body.dark-mode .ann-priority.urgent {
+            background: rgba(220,38,38,0.2);
+            color: #ef4444 !important;
+        }
+        body.dark-mode .ann-priority.normal {
+            background: rgba(255,215,0,0.15);
+            color: #ffd700 !important;
+        }
+        body.dark-mode .ann-priority.info {
+            background: rgba(5,150,105,0.2);
+            color: #34d399 !important;
+        }
+        body.dark-mode .ann-icon {
+            background: #3a3a55;
+            color: #b0b0c8 !important;
+        }
+        body.dark-mode .service-card {
+            background: #161b22;
+            border-color: rgba(255,255,255,0.08);
+        }
+        body.dark-mode .service-card:hover { border-color: #ffd700; }
+        body.dark-mode .service-name { color: #ffd700 !important; }
+        body.dark-mode .service-desc { color: #b0b0c8 !important; }
+        body.dark-mode .card-body a[style*="background:var(--surface-2)"] {
+            background: #3a3a55 !important;
+            color: #b0b0c8 !important;
+        }
+        body.dark-mode .card-body a[style*="background:var(--surface-2)"]:hover {
+            background: rgba(255,215,0,0.15) !important;
+        }
+        body.dark-mode .offcanvas-section div[style*="background:var(--surface-2)"] {
+            background: #3a3a55 !important;
+        }
+        body.dark-mode .offcanvas-section div[style*="background:var(--surface-2)"] div {
+            color: #e6edf3 !important;
+        }
+        body.dark-mode .offcanvas-section div[style*="background:var(--surface-2)"] div:last-child {
+            color: #8a8aaa !important;
+        }
+        body.dark-mode .notif-dot { border-color: #161b22; }
+        body.dark-mode .dd-item.danger { color: #ef4444 !important; }
+        body.dark-mode .dd-item.danger:hover { background: rgba(220,38,38,0.15); }
+        body.dark-mode .side-nav-divider { background: rgba(255,255,255,0.08); }
+        body.dark-mode .dd-divider { background: rgba(255,255,255,0.08); }
+
+        /* ---------- design tokens ---------- */
+        :root {
+            --primary: #003366;
+            --primary-dark: #002244;
+            --primary-light: #1a4d7a;
+            --secondary: #FFD700;
+            --secondary-light: #FFE44D;
+            --secondary-dark: #E6C200;
+            --surface: #ffffff;
+            --surface-2: #f8f7f4;
+            --surface-3: #f0eee9;
+            --border: rgba(0,51,102,0.10);
+            --border-md: rgba(0,51,102,0.18);
+            --text-1: #1a2a3a;
+            --text-2: #4a5a6a;
+            --text-3: #8a9aaa;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 22px;
+            --shadow-sm: 0 1px 3px rgba(0,51,102,0.06), 0 1px 2px rgba(0,51,102,0.04);
+            --shadow-md: 0 4px 16px rgba(0,51,102,0.08), 0 1px 4px rgba(0,51,102,0.05);
+            --shadow-lg: 0 8px 32px rgba(0,51,102,0.12);
+        }
+
+        h1, h2, h3, h4, h5, h6, .section-title, .brand-name, .nav-link, .btn, .stat-value {
+            font-family: 'Merriweather', serif;
+            letter-spacing: 0.01em;
+        }
+
+        /* ---------- header ---------- */
+        .header {
+            background: var(--primary);
+            position: sticky; top: 0; z-index: 100;
+            transition: background 0.3s ease;
+        }
+        .header-inner {
+            max-width: 1280px; margin: 0 auto;
+            padding: 0 1.5rem;
+            height: 68px;
+            display: flex; align-items: center; gap: 1.5rem;
+        }
+        .brand { display: flex; flex-direction: column; gap: 1px; min-width: 160px; text-decoration: none; }
+        .brand-name { font-size: 1.35rem; font-weight: 700; color: #fff; letter-spacing: 0.01em; line-height: 1; }
+        .brand-sub { font-size: 0.625rem; color: rgba(255,255,255,0.5); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+
+        .hamburger-btn {
+            display: flex; align-items: center; justify-content: center;
+            background: transparent; border: none;
+            color: rgba(255,255,255,0.85); cursor: pointer;
+            padding: 4px; margin-right: 4px;
+            border-radius: var(--radius-sm);
+            transition: background 0.15s;
+        }
+        .hamburger-btn:hover { background: rgba(255,215,0,0.12); }
+        .hamburger-btn svg { width: 26px; height: 26px; stroke: currentColor; stroke-width: 2.2; fill: none; }
+
+        .nav-links { display: none !important; }
+
+        .nav-actions {
+            display: flex; align-items: center; gap: 4px;
+            margin-left: auto; flex-shrink: 0;
+        }
+        .icon-btn {
+            width: 36px; height: 36px;
+            border-radius: var(--radius-sm);
+            border: none; background: transparent; cursor: pointer;
+            color: rgba(255,255,255,0.7);
+            display: flex; align-items: center; justify-content: center;
+            transition: color 0.15s, background 0.15s; position: relative;
+        }
+        .icon-btn:hover { color: #fff; background: rgba(255,215,0,0.15); }
+        .icon-btn svg { width: 18px; height: 18px; }
+        .notif-dot {
+            position: absolute; top: 5px; right: 5px;
+            width: 7px; height: 7px;
+            background: #ef4444; border-radius: 50%;
+            border: 1.5px solid var(--primary);
+        }
+
+        .avatar-btn {
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(255,215,0,0.12);
+            border: 1px solid rgba(255,215,0,0.2);
+            border-radius: 999px;
+            padding: 4px 10px 4px 4px;
+            cursor: pointer; transition: background 0.15s;
+        }
+        .avatar-btn:hover { background: rgba(255,215,0,0.2); }
+        .avatar-circle {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: var(--secondary);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 700;
+            color: var(--primary);
+        }
+        .avatar-name { font-size: 0.8125rem; color: rgba(255,255,255,0.85); font-weight: 400; }
+
+        /* ---------- side nav ---------- */
+        .side-nav {
+            position: fixed;
+            top: 0; left: -320px;
+            width: 300px; max-width: 80vw;
+            height: 100vh;
+            background: var(--surface);
+            box-shadow: 4px 0 24px rgba(0,0,0,0.06);
+            z-index: 300;
+            transition: left 0.28s cubic-bezier(0.2, 0.9, 0.4, 1.1), background 0.3s ease;
+            display: flex; flex-direction: column;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+        }
+        .side-nav.open { left: 0; }
+        .side-nav-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.25rem 1.25rem 0.75rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .side-nav-brand { font-size: 1.1rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        .side-nav-brand span { color: var(--secondary-dark); }
+        .side-nav-close {
+            background: var(--surface-3); border: none;
+            width: 30px; height: 30px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: var(--text-2);
+            transition: background 0.15s;
+        }
+        .side-nav-close:hover { background: var(--surface-2); color: var(--text-1); }
+        .side-nav-close svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2.5; fill: none; }
+        .side-nav-body { padding: 1.25rem 1rem; flex: 1; }
+        .side-nav-link {
+            display: flex; align-items: center; gap: 10px;
+            padding: 0.6rem 0.9rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem; font-weight: 500;
+            color: var(--text-2); text-decoration: none;
+            transition: background 0.12s, color 0.12s;
+            margin-bottom: 2px;
+        }
+        .side-nav-link:hover { background: var(--surface-2); color: var(--text-1); }
+        .side-nav-link.active {
+            background: rgba(0,51,102,0.06);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .side-nav-link svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; flex-shrink: 0; }
+        .side-nav-divider { height: 1px; background: var(--border); margin: 0.75rem 0.5rem; }
+        .side-nav-footer {
+            padding: 0.75rem 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.75rem;
+            color: var(--text-3);
+        }
+
+        .nav-overlay {
+            position: fixed; inset: 0;
+            background: rgba(10,20,40,0.35);
+            backdrop-filter: blur(2px);
+            z-index: 299;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+        .nav-overlay.open { opacity: 1; visibility: visible; }
+
+        /* ---------- cards ---------- */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-head {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.125rem 1.375rem 0;
+        }
+        .card-title {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.9375rem; font-weight: 600;
+            color: var(--text-1);
+            transition: color 0.3s ease;
+        }
+        .card-body { padding: 1rem 1.375rem 1.375rem; }
+
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 7px 16px; border-radius: var(--radius-md);
+            background: var(--primary); color: #fff;
+            font-size: 0.8125rem; font-weight: 600;
+            border: none; cursor: pointer; text-decoration: none;
+            transition: background 0.15s;
+        }
+        .btn-primary:hover { background: var(--primary-light); }
+
+        .section-gap { margin-bottom: 1.5rem; }
+
+        /* ---------- modal ---------- */
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(10,20,40,0.4);
+            z-index: 400; display: none; align-items: center; justify-content: center;
+            transition: background 0.3s ease;
+        }
+        .modal-backdrop.open { display: flex; }
+        .modal {
+            background: var(--surface); border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg); width: 100%; max-width: 440px; max-height: 90vh; overflow: auto;
+            animation: modalIn 0.15s ease;
+            border: 2px solid rgba(255,215,0,0.2);
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        @keyframes modalIn { from { opacity:0; transform: scale(0.96) translateY(-8px); } to { opacity:1; transform: scale(1) translateY(0); } }
+        .modal-head { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem 0; }
+        .modal-title { font-size: 1rem; font-weight: 600; color: var(--text-1); transition: color 0.3s ease; }
+        .modal-close { width: 30px; height: 30px; border-radius: 50%; border: none; background: var(--surface-3); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-2); transition: background 0.15s, color 0.3s ease; }
+        .modal-close:hover { background: var(--surface-2); color: var(--text-1); }
+        .modal-close svg { width: 15px; height: 15px; }
+        .modal-body { padding: 1rem 1.5rem 1.5rem; }
+
+        /* ---------- dropdown ---------- */
+        .dropdown-menu {
+            position: absolute; right: 0; top: calc(100% + 8px);
+            width: 260px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            z-index: 200;
+            display: none;
+            overflow: hidden;
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .dropdown-menu.open { display: block; animation: dropIn 0.14s ease; }
+        @keyframes dropIn { from { opacity:0; transform: translateY(-6px); } to { opacity:1; transform: translateY(0); } }
+        .dd-header { padding: 14px 16px 12px; border-bottom: 1px solid var(--border); transition: border-color 0.3s ease; }
+        .dd-name { font-size: 0.875rem; font-weight: 600; color: var(--text-1); transition: color 0.3s ease; }
+        .dd-email { font-size: 0.75rem; color: var(--text-3); margin-top: 2px; transition: color 0.3s ease; }
+        .dd-section { padding: 8px 8px; }
+        .dd-label { font-size: 0.625rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); padding: 4px 8px 6px; transition: color 0.3s ease; }
+        .dd-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 10px; border-radius: var(--radius-sm);
+            font-size: 0.8125rem; color: var(--text-2); cursor: pointer;
+            transition: background 0.12s, color 0.3s ease;
+        }
+        .dd-item:hover { background: var(--surface-2); }
+        .dd-item.danger { color: #dc2626; }
+        .dd-item.danger:hover { background: #fef2f2; }
+        .dd-divider { height: 1px; background: var(--border); margin: 4px 8px; transition: background 0.3s ease; }
+
+        /* ---------- offcanvas ---------- */
+        .offcanvas {
+            position: fixed;
+            top: 0; right: -420px;
+            width: 400px; max-width: 90vw;
+            height: 100vh;
+            background: var(--surface);
+            box-shadow: -4px 0 24px rgba(0,0,0,0.08);
+            z-index: 250;
+            transition: right 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1), background 0.3s ease, box-shadow 0.3s ease;
+            display: flex; flex-direction: column;
+            border-left: 1px solid var(--border);
+        }
+        .offcanvas.open { right: 0; }
+        .offcanvas-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .offcanvas-header h3 {
+            font-size: 1rem; font-weight: 600;
+            color: var(--text-1);
+            margin: 0;
+            display: flex; align-items: center; gap: 8px;
+            transition: color 0.3s ease;
+        }
+        .offcanvas-close {
+            width: 30px; height: 30px; border-radius: 50%;
+            border: none; background: var(--surface-3);
+            color: var(--text-2); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s, color 0.3s ease;
+        }
+        .offcanvas-close:hover { background: var(--surface-2); color: var(--text-1); }
+        .offcanvas-body { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
+        .offcanvas-section { margin-bottom: 2rem; }
+        .offcanvas-section-title {
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.05em; color: var(--text-3);
+            margin-bottom: 0.75rem;
+            transition: color 0.3s ease;
+        }
+        .offcanvas-overlay {
+            position: fixed; inset: 0;
+            background: rgba(10,20,40,0.4);
+            backdrop-filter: blur(2px);
+            z-index: 249;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease, background 0.3s ease;
+        }
+        .offcanvas-overlay.open { opacity: 1; visibility: visible; }
+
+        /* ---------- FAB ---------- */
+        .fab {
+            position: fixed;
+            bottom: 28px; right: 28px;
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid var(--secondary);
+            box-shadow: 0 6px 18px rgba(0,51,102,0.25);
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            z-index: 150;
+        }
+        .fab:hover {
+            transform: scale(1.05);
+            background: var(--primary-light);
+            box-shadow: 0 8px 24px rgba(0,51,102,0.35);
+        }
+        .fab svg { width: 26px; height: 26px; stroke: #fff; stroke-width: 2; fill: none; }
+
+        /* ---------- reveal ---------- */
+        .reveal,
+        .reveal-right,
+        .reveal-children > * {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1),
+                        transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .reveal-right { transform: translateX(28px); }
+        .reveal-children > * {
+            transform: translateY(20px);
+            transition: opacity 0.55s cubic-bezier(0.2, 0.9, 0.4, 1.1),
+                        transform 0.55s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .reveal.visible,
+        .reveal-right.visible,
+        .reveal-children.visible > * {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ---------- responsive ---------- */
+        @media(max-width:1024px){ .services-grid { grid-template-columns: repeat(2,1fr); } }
+        @media(max-width:768px){
+            .services-grid { grid-template-columns: 1fr; }
+            .hero-overlay { flex-direction: column; align-items: flex-start; }
+            .offcanvas { width: 85vw; }
+            .hero-greeting h1 { font-size: 1.4rem; }
+        }
+        @media(max-width:480px){
+            .services-grid { grid-template-columns: 1fr; }
+            .hero-overlay { padding: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== SIDE NAV OVERLAY ========== -->
+<div class="nav-overlay" id="sideNavOverlay" onclick="closeSideNav()"></div>
+
+<!-- ========== SIDE NAV (HAMBURGER MENU) ========== -->
+<div class="side-nav" id="sideNav">
+    <div class="side-nav-header">
+        <a href="#" class="side-nav-brand">UMak<span>·Registrar</span></a>
+        <button class="side-nav-close" onclick="closeSideNav()">
+            <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+    </div>
+    <div class="side-nav-body">
+        <a href="#" class="side-nav-link active">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            Dashboard
+        </a>
+        <a href="#" class="side-nav-link">
+            <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            Student Records
+        </a>
+        <a href="#" class="side-nav-link">
+            <svg viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            Enrollment
+        </a>
+        <a href="#" class="side-nav-link">
+            <svg viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Grades
+        </a>
+        <a href="#" class="side-nav-link">
+            <svg viewBox="0 0 24 24"><path d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/></svg>
+            Reports
+        </a>
+        <a href="#" class="side-nav-link">
+            <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            Forms
+        </a>
+        <a href="#" class="side-nav-link">
+            <svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            Settings
+        </a>
+    </div>
+    <div class="side-nav-footer">
+        &copy; 2026 UMak · Registrar
+    </div>
+</div>
+
+<!-- ========== HEADER ========== -->
+<header class="header">
+    <div class="header-inner">
+        <button class="hamburger-btn" onclick="openSideNav()" aria-label="Open menu">
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
+        </button>
+
+        <a class="brand" href="#">
+            <span class="brand-name">UMak<span style="color:#FFD700;">·Registrar</span></span>
+            <span class="brand-sub">University of Makati · Registrar Portal</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="#" class="nav-link active">Dashboard</a>
+            <a href="#" class="nav-link">Student Records</a>
+            <a href="#" class="nav-link">Enrollment</a>
+            <a href="#" class="nav-link">Grades</a>
+            <a href="#" class="nav-link">Reports</a>
+            <a href="#" class="nav-link">Forms</a>
+            <a href="#" class="nav-link">Settings</a>
+        </nav>
+
+        <div class="nav-actions">
+            <div style="position:relative;" id="profileWrap">
+                <button class="avatar-btn" onclick="toggleDropdown()">
+                    <div class="avatar-circle">JD</div>
+                    <span class="avatar-name">Juan</span>
+                    <svg style="width:13px;height:13px;color:rgba(255,255,255,0.5);margin-left:2px" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+
+                <div class="dropdown-menu" id="profileDropdown">
+                    <div class="dd-header">
+                        <div class="dd-name">Juan Dela Cruz</div>
+                        <div class="dd-email">juan.delacruz@umak.edu.ph</div>
+                    </div>
+                    <div class="dd-divider"></div>
+                    <div class="dd-section">
+                        <div class="dd-label">Account</div>
+                        <div class="dd-item" onclick="openModal('profile')">Profile Settings</div>
+                        <div class="dd-item" onclick="openModal('preferences')">Preferences</div>
+                        <div class="dd-divider"></div>
+                        <div class="dd-item danger" onclick="doSignOut()">Sign Out</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ========== MODAL BACKDROP ========== -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="if(event.target===this) closeModal()">
+    <div class="modal" id="modalBox">
+        <div class="modal-head">
+            <span class="modal-title" id="modalTitle"></span>
+            <button class="modal-close" onclick="closeModal()">
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+    </div>
+</div>
+
+<!-- ========== OFF-CANVAS OVERLAY ========== -->
+<div class="offcanvas-overlay" id="offcanvasOverlay" onclick="closeOffcanvas()"></div>
+
+<!-- ========== OFF-CANVAS PANEL ========== -->
+<div class="offcanvas" id="offcanvasPanel">
+    <div class="offcanvas-header">
+        <h3>
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:18px;height:18px">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            Quick Summary
+        </h3>
+        <button class="offcanvas-close" onclick="closeOffcanvas()">
+            <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="offcanvas-section">
+            <div class="offcanvas-section-title">Recent Activity</div>
+            <div style="padding:12px 0;color:var(--text-3);font-size:0.8125rem;text-align:center">No activity yet.</div>
+        </div>
+        <div class="offcanvas-section">
+            <div class="offcanvas-section-title">Important Tasks</div>
+            <div style="padding:12px 0;color:var(--text-3);font-size:0.8125rem;text-align:center">All tasks completed. ✓</div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== MAIN CONTENT ========== -->
+<main class="page">
+    <!-- ===== HERO ===== -->
+    <div class="reveal" style="margin-bottom:1.5rem;">
+        <h1 style="font-size:1.5rem;font-weight:700;color:var(--text-1);margin-bottom:0.25rem;transition:color 0.3s ease;">
+            Welcome to UMak Registrar Portal, <span style="color:var(--secondary-dark);">Juan</span>!
+        </h1>
+        <p style="font-size:0.875rem;color:var(--text-2);transition:color 0.3s ease;">Get Started with the Registrar Portal</p>
+    </div>
+
+    <!-- ===== EMPTY STATE CARD ===== -->
+    <div class="card reveal" style="margin-bottom:1.5rem;padding:2.5rem 2rem;text-align:center;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+            <div style="font-size:3.5rem;opacity:0.3;"></div>
+            <h2 style="font-size:1.125rem;font-weight:600;color:var(--text-1);transition:color 0.3s ease;">
+                Your dashboard is currently empty.
+            </h2>
+            <button class="btn-primary" onclick="alert('Starting with Student Records...')" style="margin-top:0.5rem;">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:16px;height:16px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                Start with Student Records
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== TWO COLUMN LAYOUT ===== -->
+    <div class="grid lg:grid-cols-2 gap-6">
+        <!-- LEFT COLUMN -->
+        <div>
+            <!-- Recent Activity -->
+            <div class="card reveal">
+                <div class="card-head">
+                    <div class="card-title">Recent Activity</div>
+                </div>
+                <div class="card-body" style="text-align:center;padding:2rem 1.375rem;">
+                    <div style="font-size:2.5rem;opacity:0.3;margin-bottom:0.5rem;"></div>
+                    <p style="color:var(--text-3);font-size:0.875rem;transition:color 0.3s ease;">No activity yet.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div>
+            <!-- Important Tasks -->
+            <div class="card reveal">
+                <div class="card-head">
+                    <div class="card-title">Important Tasks</div>
+                </div>
+                <div class="card-body" style="text-align:center;padding:2rem 1.375rem;">
+                    <div style="font-size:2.5rem;opacity:0.3;margin-bottom:0.5rem;"></div>
+                    <p style="color:var(--text-3);font-size:0.875rem;transition:color 0.3s ease;">All tasks completed.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer style="border-top:1px solid var(--border);padding:1.25rem;text-align:center;transition:border-color 0.3s ease;">
+    <p style="font-size:.75rem;color:var(--text-3);transition:color 0.3s ease;">
+        &copy; 2026 University of Makati · Registrar's Office · All rights reserved.
+    </p>
+</footer>
+
+<!-- ========== FAB ========== -->
+<button class="fab" onclick="openOffcanvas()" aria-label="Open summary panel">
+    <svg fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+</button>
+
+<script>
+    // ========== DARK MODE ==========
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+    }
+
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // ========== SIDE NAV ==========
+    function openSideNav() {
+        document.getElementById('sideNav').classList.add('open');
+        document.getElementById('sideNavOverlay').classList.add('open');
+        closeDropdown();
+    }
+    function closeSideNav() {
+        document.getElementById('sideNav').classList.remove('open');
+        document.getElementById('sideNavOverlay').classList.remove('open');
+    }
+
+    // ========== DROPDOWN ==========
+    function toggleDropdown() {
+        document.getElementById('profileDropdown').classList.toggle('open');
+    }
+    function closeDropdown() {
+        document.getElementById('profileDropdown').classList.remove('open');
+    }
+    document.addEventListener('click', e => {
+        if (!document.getElementById('profileWrap').contains(e.target)) closeDropdown();
+    });
+
+    // ========== MODAL ==========
+    function openModal(type) {
+        closeDropdown();
+        const title = document.getElementById('modalTitle');
+        const body  = document.getElementById('modalBody');
+        const map = {
+            profile: {
+                t: 'Profile Settings',
+                b: `<div style="display:flex;flex-direction:column;gap:10px;font-size:.875rem;color:var(--text-2)">
+                        <div style="display:grid;grid-template-columns:110px 1fr;gap:8px 12px;padding-top:4px">
+                            <span style="color:var(--text-3)">Full name</span><span style="color:var(--text-1);font-weight:500">Juan Dela Cruz</span>
+                            <span style="color:var(--text-3)">Email</span><span>juan.delacruz@umak.edu.ph</span>
+                            <span style="color:var(--text-3)">Student ID</span><span>2026-12345</span>
+                            <span style="color:var(--text-3)">College</span><span>College of Engineering</span>
+                            <span style="color:var(--text-3)">Course</span><span>BS Computer Science</span>
+                            <span style="color:var(--text-3)">Year Level</span><span>3rd Year</span>
+                        </div>
+                        <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn-primary" onclick="closeModal()">Close</button></div>
+                    </div>`
+            },
+            preferences: {
+                t: 'Preferences',
+                b: `<div style="display:flex;flex-direction:column;gap:12px">
+                        <label style="display:flex;align-items:center;gap:10px;font-size:.875rem;cursor:pointer"><input type="checkbox" id="darkModePref" onchange="toggleDarkModeFromPref()"> Dark mode</label>
+                        <label style="display:flex;align-items:center;gap:10px;font-size:.875rem;cursor:pointer"><input type="checkbox"> Compact view</label>
+                        <label style="display:flex;align-items:center;gap:10px;font-size:.875rem;cursor:pointer"><input type="checkbox" checked> Email notifications</label>
+                        <div style="display:flex;justify-content:flex-end;margin-top:6px"><button class="btn-primary" onclick="closeModal()">Save</button></div>
+                    </div>`
+            }
+        };
+        const m = map[type];
+        if(!m) return;
+        title.textContent = m.t;
+        body.innerHTML = m.b;
+        document.getElementById('modalBackdrop').classList.add('open');
+
+        if (type === 'preferences') {
+            setTimeout(() => {
+                const checkbox = document.getElementById('darkModePref');
+                if (checkbox) {
+                    checkbox.checked = document.body.classList.contains('dark-mode');
+                }
+            }, 50);
+        }
+    }
+
+    function toggleDarkModeFromPref() {
+        const checkbox = document.getElementById('darkModePref');
+        if (checkbox && checkbox.checked) {
+            document.body.classList.add('dark-mode');
+            localStorage.setItem('darkMode', 'true');
+        } else if (checkbox) {
+            document.body.classList.remove('dark-mode');
+            localStorage.setItem('darkMode', 'false');
+        }
+    }
+
+    function closeModal() { document.getElementById('modalBackdrop').classList.remove('open'); }
+    function doSignOut() { alert('Signing out...'); window.location.href='Front_Page.html'; }
+
+    // ========== OFF-CANVAS ==========
+    function openOffcanvas() {
+        document.getElementById('offcanvasPanel').classList.add('open');
+        document.getElementById('offcanvasOverlay').classList.add('open');
+        closeDropdown();
+    }
+    function closeOffcanvas() {
+        document.getElementById('offcanvasPanel').classList.remove('open');
+        document.getElementById('offcanvasOverlay').classList.remove('open');
+    }
+
+    // ========== SCROLL REVEAL ==========
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.15, rootMargin: "0px 0px -30px 0px" });
+
+    document.querySelectorAll('.reveal, .reveal-right, .reveal-children').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
